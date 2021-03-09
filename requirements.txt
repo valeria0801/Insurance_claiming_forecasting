@@ -32,3 +32,9 @@ termcolor
 xlrd==1.2.0
 openpyxl
 fbprophet
+datetime
+ipywidgets
+statsmodels
+pmdarima
+seaborn
+matplotlib
