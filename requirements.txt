@@ -27,3 +27,14 @@ six>=1.14
 joblib
 memoized-property
 termcolor
+
+# Insurance_claiming_forecasts
+xlrd==1.2.0
+openpyxl
+fbprophet
+datetime
+ipywidgets
+statsmodels
+pmdarima
+seaborn
+matplotlib
