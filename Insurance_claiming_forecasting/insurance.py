@@ -61,18 +61,3 @@ def data_colec(data):
     data_colec_homog = data_colec.query('amount < 60000')
     return data_colec_homog
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
