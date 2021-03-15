@@ -34,7 +34,13 @@ streamlit
 plotly
 sqlite3
 
-
-
-
-
+# Insurance_claiming_forecasts
+xlrd==1.2.0
+openpyxl
+fbprophet
+datetime
+ipywidgets
+statsmodels
+pmdarima
+seaborn
+matplotlib
