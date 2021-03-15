@@ -40,3 +40,4 @@ st.line_chart(data_week)
 fig = px.line(data_week, x='date_issue', y='total_amount_claims')
 fig.show()
 st.plotly_chart(fig)
+
