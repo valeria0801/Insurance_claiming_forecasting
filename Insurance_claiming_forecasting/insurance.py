@@ -50,3 +50,29 @@ def data_daily(data):
 def data_weekly(data_days):
     data_weekly = data_days.resample('W-Mon', on='date_issue').sum().reset_index().sort_values(by='date_issue')
     return data_weekly
+
+def data_indiv(data):
+    data_indiv = data.query('insurance_type == "INDIVIDUAL"')
+    data_indiv_homog = data_indiv.query('amount < 200000')
+    return data_indiv_homog
+
+def data_colec(data):
+    data_colec = data.query('insurance_type == "COLECTIVO"')
+    data_colec_homog = data_colec.query('amount < 60000')
+    return data_colec_homog
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
