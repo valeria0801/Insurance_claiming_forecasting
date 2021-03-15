@@ -10,14 +10,14 @@ def get_data():
 def clean_data(data):
     data = data.drop(columns='SINIESTRO')
     data = data.drop_duplicates()
-    
+
     '''Rename columns'''
     data = data.rename(columns={'ESTATUS': 'status',
                                 'RAMOID': 'insurance_type',
                                 'ENFERMEDAD': 'disease',
                                 'TIPO_SIN':'claim_type',
                                 'TP_PROVEEDOR': 'provider_type',
-                                'ESTADO':'state', 
+                                'ESTADO':'state',
                                 'SEXO':'sex',
                                 'EDAD':'age',
                                 'CD_PAIS':'country_id',
@@ -26,10 +26,10 @@ def clean_data(data):
                                 'Rango Edad':'age_range',
                                 'Hospitalizacion-Ambulatorio': 'h_type'
                                 })
-    
+
     '''Null values replace'''
     for col in data.columns[:7]:
-        data[col] = data[col].fillna("No informado") 
+        data[col] = data[col].fillna("No informado")
     data['age'] = data['age'].fillna(data['age'].mean())
     data['country_id'] = data['country_id'].fillna(29)
     data['amount'] = data['amount'].fillna(0)
@@ -39,7 +39,7 @@ def clean_data(data):
 
     '''Split the data for data homogenization'''
     data = data.loc[(data['date_issue'] >= datetime.datetime(2018, 9, 1))]
-      
+
     return data
 
 def data_daily(data):
