@@ -2,12 +2,12 @@ import pandas as pd
 import numpy as np
 import datetime
 
-def get_data():
+
+def get_clean_data():
+
     '''This function returns a Data Frame'''
     data = pd.read_excel('../raw_data/data_siniestros.xlsx', engine='openpyxl')
-    return data
 
-def clean_data(data):
     data = data.drop(columns='SINIESTRO')
     data = data.drop_duplicates()
 
@@ -42,22 +42,38 @@ def clean_data(data):
 
     return data
 
-def data_daily(data):
+def data_indiv():
+    '''Regroup portfolio INDIVIDUAL'''
+
+    data = get_clean_data()
+    data_indiv = data.query('insurance_type == "INDIVIDUAL"')
+    data_indiv = data_indiv.query('amount < 200000')
+    return data_indiv
+
+
+def data_colec():
+    '''Regroup portfolio COLECTIVO'''
+
+    data = get_clean_data()
+    data_colec = data.query('insurance_type == "COLECTIVO"')
+    data_colec = data_colec.query('amount < 60000')
+    return data_colec
+
+
+def data_daily():
+    '''Regroup data daily'''
+
+    data = get_clean_data()
     data_days = data.groupby('date_issue', as_index = False).agg({'amount': 'sum'})
     data_days.columns = ['date_issue','total_amount_claims']
     return data_days
 
-def data_weekly(data_days):
-    data_weekly = data_days.resample('W-Mon', on='date_issue').sum().reset_index().sort_values(by='date_issue')
-    return data_weekly
 
-def data_indiv(data):
-    data_indiv = data.query('insurance_type == "INDIVIDUAL"')
-    data_indiv_homog = data_indiv.query('amount < 200000')
-    return data_indiv_homog
+def data_weekly():
+    '''Regroup data daily'''
 
-def data_colec(data):
-    data_colec = data.query('insurance_type == "COLECTIVO"')
-    data_colec_homog = data_colec.query('amount < 60000')
-    return data_colec_homog
+    data_days = data_daily()
+    data_weeks = data_days.resample('W-Mon', on='date_issue').sum().reset_index().sort_values(by='date_issue')
+    return data_weeks
+
 
