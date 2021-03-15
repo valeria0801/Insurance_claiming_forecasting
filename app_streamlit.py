@@ -4,12 +4,12 @@ import numpy as np
 import plotly
 from Insurance_claiming_forecasting import insurance
 import plotly.express as px
+import datetime
 
 st.markdown("""# Welcome!""")
 
 st.write('## This is your prediction interface')
 
-import datetime
 d = st.date_input(
     "Choose the day to predict:",
     datetime.date(2019, 3, 1))
