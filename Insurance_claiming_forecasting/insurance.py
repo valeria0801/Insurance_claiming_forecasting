@@ -50,6 +50,18 @@ def data_colec(path):
     data_colec = data_colec.query('amount < 60000')
     return data_colec
 
+# Separate portfolio - daily
+def data_indiv_daily(path):
+    data = data_indiv(path)
+    data_indiv_daily = data.groupby('date_issue', as_index = False).agg({'insurance_type': 'count', 'amount': 'sum'})
+    data_indiv_daily.columns = ['date_issue','total_claims', 'total_amount_claims']
+    return data_indiv_daily
+
+def data_colec_daily(path):
+    data = data_colec(path)
+    data_colec_daily = data.groupby('date_issue', as_index = False).agg({'insurance_type': 'count', 'amount': 'sum'})
+    data_colec_daily.columns = ['date_issue','total_claims', 'total_amount_claims']
+    return data_colec_daily
 
 # Separate frequency
 def data_daily(path):
@@ -112,4 +124,3 @@ def data_colec_covid_weekly(path):
 if __name__ == "__main__":
     path = '../raw_data/data_siniestros.xlsx'
     print('hola')
-
