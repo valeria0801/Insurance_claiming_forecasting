@@ -59,3 +59,7 @@ pypi_test:
 
 pypi:
 	@twine upload dist/* -u $(PYPI_USERNAME)
+
+# ADDING STREAMLIT COMMAND FOR HEROKU DEPLOYMENT
+run_streamlit:
+    streamlit run app.py
