@@ -25,5 +25,5 @@ seaborn
 matplotlib
 streamlit
 plotly
-base64
+pybase64
 statsmodels
