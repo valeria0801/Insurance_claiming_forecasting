@@ -6,8 +6,8 @@ from datetime import timedelta
 
 def get_data():
     #Depende de la función de las chicas
-    data_ind= pd.read_excel('raw_data/weekly_data_clean_with_covid_ind.xlsx', engine='openpyxl').drop(columns= 'Unnamed: 0').set_index('date_issue')
-    data_col= pd.read_excel('raw_data/weekly_data_clean_with_covid_col.xlsx', engine='openpyxl').drop(columns= 'Unnamed: 0').set_index('date_issue')
+    data_ind= pd.read_excel('data_heroku/weekly_data_clean_with_covid_ind.xlsx', engine='openpyxl').drop(columns= 'Unnamed: 0').set_index('date_issue')
+    data_col= pd.read_excel('data_heroku/weekly_data_clean_with_covid_col.xlsx', engine='openpyxl').drop(columns= 'Unnamed: 0').set_index('date_issue')
     return data_col, data_ind
 
 def plot_future_forecast(past_data, prediction, upper=None, lower=None):

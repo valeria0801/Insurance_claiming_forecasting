@@ -122,5 +122,5 @@ def data_colec_covid_weekly(path):
 
 #funciones exclusivas de este scrip, cuando importe las funciones esto no corre
 if __name__ == "__main__":
-    path = '../raw_data/data_siniestros.xlsx'
+    path = '../data_heroku/data_siniestros.xlsx'
     print('hola')

@@ -46,7 +46,7 @@ set_png_as_page_bg('wallpaper.jpg')
 
 ###-----Data-----###
 
-path = 'raw_data/data_siniestros.xlsx'
+path = 'data_heroku/data_siniestros.xlsx'
 
 @st.cache
 def get_cached_data():
