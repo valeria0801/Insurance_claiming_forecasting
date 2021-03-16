@@ -18,11 +18,11 @@ def plot_future_forecast(past_data, prediction, upper=None, lower=None):
     upper_series = pd.Series(lower, index=prediction.index) if is_confidence_int else None
     # Plot
     plt.figure(figsize=(10,4), dpi=100)
-    plt.plot(past_data, label='past_data', color='black')
-    plt.plot(prediction, label='forecast', color='orange')
+    plt.plot(past_data, label='Historical Data', color='black')
+    plt.plot(prediction, label='Forecast', color='orange')
     if is_confidence_int:
         plt.fill_between(lower_series.index, lower_series, upper_series, color='k', alpha=.15)
-    plt.title('Forecast')
+    # plt.title('Forecast')
     plt.legend(loc='upper left', fontsize=8);
 
 def plot_future_forecast_total(past_data, prediction, upper=None, lower=None):
@@ -33,11 +33,11 @@ def plot_future_forecast_total(past_data, prediction, upper=None, lower=None):
     upper_series = pd.Series(lower, index=prediction.index) if is_confidence_int else None
     # Plot
     plt.figure(figsize=(10,4), dpi=100)
-    plt.plot(past_data, label='past_data', color='black')
-    plt.plot(prediction, label='forecast', color='orange')
+    plt.plot(past_data, label='Historical Data', color='black')
+    plt.plot(prediction, label='Forecast', color='orange')
     if is_confidence_int:
         plt.fill_between(lower_series.index, lower_series, upper_series, color='k', alpha=.15)
-    plt.title('Forecast')
+    # plt.title('Forecast')
     plt.legend(loc='upper left', fontsize=8);
 
 def predict_col(data_col, end_date):
@@ -111,6 +111,26 @@ def plot_predict_total(data_col, data_ind, end_date):
     merged_pred, merged_ci = predict_total(data_col, data_ind, end_date)
     return plot_future_forecast_total(total_df['total_amount'], merged_pred['total_pred'], upper= merged_ci['total_upper_amount'].values, lower= merged_ci['total_lower_amount'].values)
 
+def pred_sum_col(data_col, end_date):
+    future_predicted_amount_df_full_data_col, future_pred_ci_full_data_col = predict_col(data_col, end_date)
+    predicted_sum_m_col = round(future_predicted_amount_df_full_data_col[0].sum()/1000000, 2)
+    lower_sum_m_col = round(future_pred_ci_full_data_col['lower amount'].sum()/1000000, 2)
+    upper_sum_m_col = round(future_pred_ci_full_data_col['upper amount'].sum()/1000000, 2)
+    return predicted_sum_m_col, lower_sum_m_col, upper_sum_m_col
 
+def pred_sum_ind(data_ind, end_date):
+    future_predicted_amount_df_full_data_ind, future_pred_ci_full_data_ind = predict_ind(data_ind, end_date)
+    predicted_sum_m_ind = round(future_predicted_amount_df_full_data_ind[0].sum()/1000000, 2)
+    lower_sum_m_ind = round(future_pred_ci_full_data_ind['lower amount'].sum()/1000000, 2)
+    upper_sum_m_ind = round(future_pred_ci_full_data_ind['upper amount'].sum()/1000000, 2)
+    return predicted_sum_m_ind, lower_sum_m_ind, upper_sum_m_ind
+
+def pred_sum_total(data_col, data_ind, end_date):
+    predicted_sum_m_col, lower_sum_m_col, upper_sum_m_col = pred_sum_col(data_col, end_date)
+    predicted_sum_m_ind, lower_sum_m_ind, upper_sum_m_ind = pred_sum_ind(data_ind, end_date)
+    predicted_sum_m_total = round(predicted_sum_m_col + predicted_sum_m_ind,2)
+    lower_sum_m_total = round(lower_sum_m_col + lower_sum_m_ind, 2)
+    upper_sum_m_total = round(upper_sum_m_col + upper_sum_m_ind, 2)
+    return predicted_sum_m_total, lower_sum_m_total, upper_sum_m_total
 
 
