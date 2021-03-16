@@ -9,19 +9,6 @@ numpy
 pandas
 scikit-learn
 
-# tests/linter
-black
-coverage
-flake8
-pytest
-yapf
-
-# API
-gcsfs
-google-cloud-storage
-mlflow
-s3fs
-
 # utilities
 six>=1.14
 joblib
@@ -30,10 +17,13 @@ memoized-property
 # Insurance_claiming_forecasts
 xlrd==1.2.0
 openpyxl
-fbprophet
 datetime
 ipywidgets
 statsmodels
 pmdarima
 seaborn
 matplotlib
+streamlit
+plotly
+base64
+statsmodels
