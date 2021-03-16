@@ -34,8 +34,7 @@ def get_clean_data(path):
     '''Split the data for data homogenization'''
     data = data.loc[(data['date_issue'] >= datetime.datetime(2018, 9, 1))]
     return data
-​
-​
+
 # Separate portfolio
 def data_indiv(path):
     '''Regroup portfolio INDIVIDUAL'''
