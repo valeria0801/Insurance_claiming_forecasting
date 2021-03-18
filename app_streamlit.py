@@ -11,8 +11,8 @@ import matplotlib.pyplot as plt
 from statsmodels.tsa.statespace.sarimax import SARIMAX
 from datetime import timedelta
 import time
-
-
+# df = pd.read_csv('data/clean_data.csv')
+# st.write(df)
 ###-----Wallpaper Image Local-----###
 @st.cache(allow_output_mutation=True)
 def get_base64_of_bin_file(bin_file):
@@ -45,7 +45,7 @@ set_png_as_page_bg('wallpaper.jpg')
 # st.markdown(background_image, unsafe_allow_html=True)
 
 ###-----Data-----###
-path = 'data_heroku/data_siniestros.xlsx'
+path = 'Insurance_claiming_forecasting/data/clean_data.csv'
 
 # @st.cache
 def get_cached_data():

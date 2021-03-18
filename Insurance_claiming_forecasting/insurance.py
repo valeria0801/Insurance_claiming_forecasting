@@ -37,6 +37,7 @@ def get_clean_data(path):
     data['age_range'] = data['age_range'].replace({pd.to_datetime('2019-10-01 00:00:00'): 'No informado'})
     '''Split the data for data homogenization'''
     data = data.loc[(data['date_issue'] >= datetime.datetime(2018, 9, 1))]
+    data.to_csv('data/clean_data.csv', index=False)
     return data
 
 # Separate portfolio
@@ -128,3 +129,4 @@ def data_colec_covid_weekly(path):
 if __name__ == "__main__":
     path = '../data_heroku/data_siniestros.xlsx'
     print('hola')
+    get_clean_data(path)
