@@ -4,7 +4,7 @@ import datetime
 
 def get_clean_data(path):
     '''This function returns a Data Frame'''
-    data = pd.read_excel(path, engine='openpyxl')
+    data = pd.read_csv(path)
     data = data.drop(columns='SINIESTRO')
     data = data.drop_duplicates()
     '''Rename columns'''
