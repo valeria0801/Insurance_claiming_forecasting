@@ -3,6 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from statsmodels.tsa.statespace.sarimax import SARIMAX
 from datetime import timedelta
+import plotly.express as px
+from plotly.graph_objs import *
 
 def get_data():
     #Depende de la función de las chicas
@@ -18,7 +20,7 @@ def plot_future_forecast(past_data, prediction, upper=None, lower=None):
     upper_series = pd.Series(lower, index=prediction.index) if is_confidence_int else None
     # Plot
     plt.figure(figsize=(10,4), dpi=100)
-    plt.plot(past_data, label='Historical Data', color='black')
+    plt.plot(past_data['2019-07-01':], label='Historical Data', color='black')
     plt.plot(prediction, label='Forecast', color='orange')
     if is_confidence_int:
         plt.fill_between(lower_series.index, lower_series, upper_series, color='k', alpha=.15)
@@ -33,7 +35,7 @@ def plot_future_forecast_total(past_data, prediction, upper=None, lower=None):
     upper_series = pd.Series(lower, index=prediction.index) if is_confidence_int else None
     # Plot
     plt.figure(figsize=(10,4), dpi=100)
-    plt.plot(past_data, label='Historical Data', color='black')
+    plt.plot(past_data['2019-07-01':], label='Historical Data', color='black')
     plt.plot(prediction, label='Forecast', color='orange')
     if is_confidence_int:
         plt.fill_between(lower_series.index, lower_series, upper_series, color='k', alpha=.15)
@@ -133,4 +135,59 @@ def pred_sum_total(data_col, data_ind, end_date):
     upper_sum_m_total = round(upper_sum_m_col + upper_sum_m_ind, 2)
     return predicted_sum_m_total, lower_sum_m_total, upper_sum_m_total
 
+# Plotly Interactive Graphs Functions
+def interactive_plot_ind(data_ind, end_date):
+    future_predicted_amount_df_full_data_ind, future_pred_ci_full_data_ind = predict_ind(data_ind, end_date)
+    data_ind= data_ind.drop(columns='covid_claims')
+    concat_df = pd.concat([data_ind, future_predicted_amount_df_full_data_ind])
+    concat_df['predicted_amount']= concat_df[0]
+    concat_df.drop(columns=0, inplace=True)
+    concat_df.fillna(value= '', inplace=True)
+    complete_df = concat_df.merge(future_pred_ci_full_data_col, how='left', left_index=True, right_index=True)
+    complete_df.fillna(value= '', inplace=True)
+    complete_df = complete_df.rename(columns={'amount':'Historical Data', 'predicted_amount':'Forecast', 'lower amount':'Lower CI Limit', 'upper amount': 'Upper CI Limit'})
+    # Plotting
+    fig = px.line(complete_df, x=complete_df.index, y=complete_df.columns, color_discrete_map={
+                    'Historical Data': 'black',
+                    'Forecast': 'orange',
+                    'Lower CI Limit': 'lightgray',
+                    'Upper CI Limit': 'lightgray'})
+    fig.update_layout({
+    'plot_bgcolor': 'rgba(0, 0, 0, 0)',
+    'paper_bgcolor': 'rgba(0, 0, 0, 0)',
+    })
+    fig.update_xaxes(rangeslider_visible=True)
+    fig.show()
 
+def plot_predict_interactive_ind(data_ind, end_date):
+    return interactive_plot_col(data_ind, end_date)
+
+def interactive_plot_total(data_col, data_ind, end_date):
+    merged_pred, merged_ci = predict_total(data_col, data_ind, end_date)
+    total_df = data_col.merge(data_ind, right_index=True, left_index=True)
+    total_df['total_amount']= total_df['amount_x'] + total_df['amount_y']
+    total_df= pd.DataFrame(total_df['total_amount'])
+    total_df= pd.concat([total_df, merged_pred['total_pred']])
+    total_df = total_df.merge(merged_ci, how='left', left_index=True, right_index=True)
+    total_df= total_df[['total_amount', 0, 'total_lower_amount', 'total_upper_amount']]
+    total_df.fillna(value= '', inplace=True)
+    total_df['predicted_amount']= total_df[0]
+    total_df.drop(columns=0, inplace=True)
+    total_df = total_df.rename(columns= {'total_amount':'Historical Data',
+    'total_lower_amount':'Lower CI Limit',
+    'total_upper_amount': 'Upper CI Limit',
+    'predicted_amount': 'Forecast'})
+    # Plotting
+    fig = px.line(total_df, x=total_df.index, y=total_df.columns, color_discrete_map={
+    'Historical Data': 'black',
+    'Forecast': 'orange',
+    'Lower CI Limit': 'lightgray',
+    'Upper CI Limit': 'lightgray'})
+    fig.update_layout({
+    'plot_bgcolor': 'rgba(0, 0, 0, 0)',
+    'paper_bgcolor': 'rgba(0, 0, 0, 0)',
+    })
+    fig.update_xaxes(rangeslider_visible=True)
+    fig.show()
+def plot_predict_interactive_total(data_col, data_ind, end_date):
+    return interactive_plot_total(data_col, data_ind, end_date)
