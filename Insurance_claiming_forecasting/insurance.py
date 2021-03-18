@@ -4,7 +4,7 @@ import datetime
 
 def get_clean_data(path):
     '''This function returns a Data Frame'''
-    data = pd.read_csv(path)
+    data = pd.read_excel(path, engine='openpyxl')
     data = data.drop(columns='SINIESTRO')
     data = data.drop_duplicates()
     '''Rename columns'''
@@ -46,6 +46,7 @@ def data_indiv(path):
     data = get_clean_data(path)
     data_indiv = data.query('insurance_type == "INDIVIDUAL"')
     data_indiv = data_indiv.query('amount < 200000')
+    data_indiv.to_csv('data/data_indiv.csv', index=False)
     return data_indiv
 
 def data_colec(path):
@@ -53,6 +54,7 @@ def data_colec(path):
     data = get_clean_data(path)
     data_colec = data.query('insurance_type == "COLECTIVO"')
     data_colec = data_colec.query('amount < 60000')
+    data_colec.to_csv('data/data_colec.csv', index=False)
     return data_colec
 
 # Separate portfolio - daily
@@ -60,12 +62,14 @@ def data_indiv_daily(path):
     data = data_indiv(path)
     data_indiv_daily = data.groupby('date_issue', as_index = False).agg({'insurance_type': 'count', 'amount': 'sum'})
     data_indiv_daily.columns = ['date_issue','total_claims', 'total_amount_claims']
+    data_indiv_daily.to_csv('data/data_indiv_daily.csv', index=False)
     return data_indiv_daily
 
 def data_colec_daily(path):
     data = data_colec(path)
     data_colec_daily = data.groupby('date_issue', as_index = False).agg({'insurance_type': 'count', 'amount': 'sum'})
     data_colec_daily.columns = ['date_issue','total_claims', 'total_amount_claims']
+    data_colec_daily.to_csv('data/data_colec_daily.csv', index=False)
     return data_colec_daily
 
 # Separate frequency
@@ -74,12 +78,14 @@ def data_daily(path):
     data = get_clean_data(path)
     data_days = data.groupby('date_issue', as_index = False).agg({'amount': 'sum'})
     data_days.columns = ['date_issue','total_amount_claims']
+    data_days.to_csv('data/data_days.csv', index=False)
     return data_days
 
 def data_weekly(path):
     '''Regroup data weekly'''
     data_days = data_daily(path)
     data_weeks = data_days.resample('W-Mon', on='date_issue').sum().reset_index().sort_values(by='date_issue')
+    data_weeks.to_csv('data/data_weeks.csv', index=False)
     return data_weeks
 
 
@@ -88,12 +94,14 @@ def data_covid_daily(path):
     data = get_clean_data(path)
     data['covid_claims'] = data.disease.map(lambda x: 1 if 'Covid' in x else 0)
     data_covid_daily = data.groupby('date_issue', as_index = False).agg({'amount': 'sum', 'covid_claims': 'sum'})
+    data_covid_daily.to_csv('data/data_covid_daily.csv', index=False)
     return data_covid_daily
 
 def data_covid_weekly(path):
     data = get_clean_data(path)
     data_covid_days = data_covid_daily(path)
     data_covid_weekly = data_covid_days.resample('W-Mon', on='date_issue').sum().reset_index().sort_values(by='date_issue')
+    data_covid_weekly.to_csv('data/data_covid_weekly.csv', index=False)
     return data_covid_weekly
 
 
@@ -103,12 +111,14 @@ def data_indiv_covid_daily(path):
     data = data_indiv(path)
     data['covid_claims'] = data.disease.map(lambda x: 1 if 'Covid' in x else 0)
     data_indiv_covid_daily = data.groupby('date_issue', as_index = False).agg({'amount': 'sum', 'covid_claims': 'sum'})
+    data_indiv_covid_daily.to_csv('data/data_indiv_covid_daily.csv', index=False)
     return data_indiv_covid_daily
 
 def data_indiv_covid_weekly(path):
     '''Regroup data weekly covid_no-covid'''
     data_indiv_covid_days = data_indiv_covid_daily(path)
     data_indiv_covid_weekly = data_indiv_covid_days.resample('W-Mon', on='date_issue').sum().reset_index().sort_values(by='date_issue')
+    data_indiv_covid_weekly.to_csv('data/data_indiv_covid_weekly.csv', index=False)
     return data_indiv_covid_weekly
 
 def data_colec_covid_daily(path):
@@ -116,12 +126,14 @@ def data_colec_covid_daily(path):
     data = data_colec(path)
     data['covid_claims'] = data.disease.map(lambda x: 1 if 'Covid' in x else 0)
     data_colec_covid_daily = data.groupby('date_issue', as_index = False).agg({'amount': 'sum', 'covid_claims': 'sum'})
+    data_colec_covid_daily.to_csv('data/data_colec_covid_daily.csv', index=False)
     return data_colec_covid_daily
 
 def data_colec_covid_weekly(path):
     '''Regroup data weekly covid_no-covid'''
     data_colec_covid_days = data_colec_covid_daily(path)
     data_colec_covid_weekly = data_colec_covid_days.resample('W-Mon', on='date_issue').sum().reset_index().sort_values(by='date_issue')
+    data_colec_covid_weekly.to_csv('data/data_colec_covid_weekly.csv', index=False)
     return data_colec_covid_weekly
 
 
@@ -130,3 +142,15 @@ if __name__ == "__main__":
     path = '../data_heroku/data_siniestros.xlsx'
     print('hola')
     get_clean_data(path)
+    data_indiv(path)
+    data_colec(path)
+    data_indiv_daily(path)
+    data_colec_daily(path)
+    data_daily(path)
+    data_weekly(path)
+    data_covid_daily(path)
+    data_covid_weekly(path)
+    data_indiv_covid_daily(path)
+    data_indiv_covid_weekly(path)
+    data_colec_covid_daily(path)
+    data_colec_covid_weekly(path)

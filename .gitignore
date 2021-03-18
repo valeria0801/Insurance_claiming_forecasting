@@ -9,3 +9,4 @@ raw_data/
 prediction_streamlit.py
 loginapp_streamlit.py
 data.db
+Insurance_claiming_forecasting/data/*.csv

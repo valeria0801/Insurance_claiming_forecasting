@@ -54,35 +54,41 @@ path = 'Insurance_claiming_forecasting/data/clean_data.csv'
 # cache_data = get_cached_data()
 cache_data = pd.read_csv(path)
 # @st.cache
-def get_cached_data_covid():
-    cache_covid_data = insurance.data_covid_daily(path)
-    return cache_covid_data
-cache_covid = get_cached_data_covid()
-# @st.cache
-def get_cached_data_daily():
-    cache_data_daily = insurance.data_daily(path)
-    return cache_data_daily
-cache_daily = get_cached_data_daily()
-# @st.cache
-def get_cached_data_indiv_daily():
-    cache_data_indiv_daily = insurance.data_indiv_daily(path)
-    return cache_data_indiv_daily
-cache_indiv_daily = get_cached_data_indiv_daily()
-# @st.cache
-def get_cached_data_colec_daily():
-    cache_data_colec_daily = insurance.data_colec_daily(path)
-    return cache_data_colec_daily
-cache_colec_daily = get_cached_data_colec_daily()
-# @st.cache
-def get_cached_data_indiv_covid_daily():
-    cached_data_indiv_covid_daily = insurance.data_indiv_covid_daily(path)
-    return cached_data_indiv_covid_daily
-cache_indiv_covid_daily = get_cached_data_indiv_covid_daily()
-# @st.cache
-def get_cached_data_colec_covid_daily():
-    cached_data_colec_covid_daily = insurance.data_colec_covid_daily(path)
-    return cached_data_colec_covid_daily
-cached_colec_covid_daily = get_cached_data_colec_covid_daily()
+# def get_cached_data_covid():
+#     cache_covid_data = insurance.data_covid_daily(path)
+#     return cache_covid_data
+# cache_covid = get_cached_data_covid()
+cache_covid = pd.read_csv('Insurance_claiming_forecasting/data/data_covid_daily.csv')
+# # @st.cache
+# def get_cached_data_daily():
+#     cache_data_daily = insurance.data_daily(path)
+#     return cache_data_daily
+# cache_daily = get_cached_data_daily()
+cache_daily = pd.read_csv('Insurance_claiming_forecasting/data/data_days.csv')
+# # @st.cache
+# def get_cached_data_indiv_daily():
+#     cache_data_indiv_daily = insurance.data_indiv_daily(path)
+#     return cache_data_indiv_daily
+# cache_indiv_daily = get_cached_data_indiv_daily()
+cache_indiv_daily = pd.read_csv('Insurance_claiming_forecasting/data/data_indiv_daily.csv')
+# # @st.cache
+# def get_cached_data_colec_daily():
+#     cache_data_colec_daily = insurance.data_colec_daily(path)
+#     return cache_data_colec_daily
+# cache_colec_daily = get_cached_data_colec_daily()
+cache_colec_daily = pd.read_csv('Insurance_claiming_forecasting/data/data_colec_daily.csv')
+# # @st.cache
+# def get_cached_data_indiv_covid_daily():
+#     cached_data_indiv_covid_daily = insurance.data_indiv_covid_daily(path)
+#     return cached_data_indiv_covid_daily
+# cache_indiv_covid_daily = get_cached_data_indiv_covid_daily()
+cache_indiv_covid_daily = pd.read_csv('Insurance_claiming_forecasting/data/data_indiv_covid_daily.csv')
+# # @st.cache
+# def get_cached_data_colec_covid_daily():
+#     cached_data_colec_covid_daily = insurance.data_colec_covid_daily(path)
+#     return cached_data_colec_covid_daily
+# cached_colec_covid_daily = get_cached_data_colec_covid_daily()
+cache_colec_covid_daily = pd.read_csv('Insurance_claiming_forecasting/data/data_colec_covid_daily.csv')
 
 
 #---Auxiliar DataFrame---#
@@ -341,7 +347,7 @@ elif choise == "Business Intelligence":
 
         if st.checkbox('COVID claimings'):
             st.write('In this section we are viewing the claims corresponding to covid')
-            covid_colec_plot = px.line(cached_colec_covid_daily, x='date_issue', y='covid_claims')
+            covid_colec_plot = px.line(cache_colec_covid_daily, x='date_issue', y='covid_claims')
             covid_colec_plot.update_layout({'paper_bgcolor': 'rgba(0,0,0,0)', 'plot_bgcolor': 'rgba(0,0,0,0)',})
             covid_colec_plot.update_layout(width=1000, height=500)
             st.plotly_chart(covid_colec_plot)
