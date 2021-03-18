@@ -27,16 +27,6 @@ if (data_col.index[-1] + timedelta(days=1)).date() < (data_ind.index[-1] + timed
 else:
     start_date = (data_ind.index[-1] + timedelta(days=1)).date()
 
-#-------------------TO BE REFINED---------------------------
-
-# st.write(f'*Prediction period starts on: {start_date}*')
-# # Getting date imput
-# end_date = st.date_input("Prediction period ends on:", value=datetime.date(2021, 4, 8))
-
-# # Date error for past dates
-# if end_date <= start_date + timedelta(days=5):
-#     st.markdown(f'The date you entered is invalid. Please, enter a date after {start_date + timedelta(days=5)}.')
-# else:
 
 # Getting prediction horizon choice
 
@@ -68,15 +58,14 @@ end_date = get_end_date(option)
 st.write(f'The prediction will start on {start_date} and will end on {end_date}.')
 
 
-#------------------------------------------------------------
 
 # Plotting prediction for both carteras
 st.markdown(f"""### **Total Portfolio amount forecast for {option}**""")
 
-st.pyplot(prediction.plot_predict_total(data_col, data_ind, end_date))
+st.plotly_chart(prediction.final_plot_total(data_col, data_ind, end_date))
 
 #Adding predicted amounts
-predicted_sum_m_total, lower_sum_m_total, upper_sum_m_total = prediction.pred_sum_total(data_col, data_ind, end_date)
+predicted_sum_m_col, lower_sum_m_col, upper_sum_m_col, predicted_sum_m_ind, lower_sum_m_ind, upper_sum_m_ind, predicted_sum_m_total, lower_sum_m_total, upper_sum_m_total = prediction.pred_summary(data_col, data_ind, end_date)
 
 st.write(f'The predicted amount sums {predicted_sum_m_total} Million USD.')
 
@@ -85,10 +74,9 @@ st.write(f'The 95% Confidence Interval goes from {lower_sum_m_total} Million USD
 # Plotting prediction for cartera colectiva
 st.markdown(f"""### **Collective Portfolio amount forecast for {option}**""")
 
-st.pyplot(prediction.plot_predict_col(data_col, end_date))
+st.plotly_chart(prediction.final_plot_col(data_col, end_date))
 
 #Adding predicted amounts
-predicted_sum_m_col, lower_sum_m_col, upper_sum_m_col = prediction.pred_sum_col(data_col, end_date)
 
 st.write(f'The predicted amount sums {predicted_sum_m_col} Million USD.')
 
@@ -97,10 +85,10 @@ st.write(f'The 95% Confidence Interval goes from {lower_sum_m_col} Million USD t
 # Plotting prediction for cartera individual
 st.markdown(f"""### **Individual Portfolio amount forecast for {option}**""")
 
-st.pyplot(prediction.plot_predict_ind(data_ind, end_date))
+st.plotly_chart(prediction.final_plot_ind(data_ind, end_date))
 
 #Adding predicted amounts
-predicted_sum_m_ind, lower_sum_m_ind, upper_sum_m_ind = prediction.pred_sum_ind(data_ind, end_date)
+
 
 st.write(f'The predicted amount sums {predicted_sum_m_ind} Million USD.')
 
