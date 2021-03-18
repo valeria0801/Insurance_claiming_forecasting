@@ -48,10 +48,11 @@ set_png_as_page_bg('wallpaper.jpg')
 path = 'Insurance_claiming_forecasting/data/clean_data.csv'
 
 # @st.cache
-def get_cached_data():
-    cache_clean_data = insurance.get_clean_data(path)
-    return cache_clean_data
-cache_data = get_cached_data()
+# def get_cached_data():
+#     cache_clean_data = insurance.get_clean_data(path)
+#     return cache_clean_data
+# cache_data = get_cached_data()
+cache_data = pd.read_csv(path)
 # @st.cache
 def get_cached_data_covid():
     cache_covid_data = insurance.data_covid_daily(path)
