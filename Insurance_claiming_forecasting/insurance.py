@@ -31,6 +31,7 @@ def get_clean_data(path):
     data['date_issue'] = data['date_issue'].fillna(pd.to_datetime('1999-01-01'))
     for col in data.columns[11:]:
         data[col] = data[col].fillna("No informado")
+    data['age_range'] = data['age_range'].replace({pd.to_datetime('2019-10-01 00:00:00'): 'No informado'})
     '''Split the data for data homogenization'''
     data = data.loc[(data['date_issue'] >= datetime.datetime(2018, 9, 1))]
     return data
