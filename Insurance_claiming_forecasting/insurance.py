@@ -23,8 +23,11 @@ def get_clean_data(path):
                                 'Hospitalizacion-Ambulatorio': 'h_type'
                                 })
     '''Null values replace'''
-    for col in data.columns[:7]:
+    for col in data.columns[:5]:
         data[col] = data[col].fillna("No informado")
+    data['state'] = data['state'].replace({'Estado No Identificado': 'Distrito Capital'})
+    data['state'] = data['state'].fillna("Distrito Capital")
+    data['sex'] = data['sex'].fillna("No informado")
     data['age'] = data['age'].fillna(data['age'].mean())
     data['country_id'] = data['country_id'].fillna(29)
     data['amount'] = data['amount'].fillna(0)
