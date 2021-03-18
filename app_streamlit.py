@@ -47,37 +47,37 @@ set_png_as_page_bg('wallpaper.jpg')
 ###-----Data-----###
 path = 'data_heroku/data_siniestros.xlsx'
 
-@st.cache
+# @st.cache
 def get_cached_data():
     cache_clean_data = insurance.get_clean_data(path)
     return cache_clean_data
 cache_data = get_cached_data()
-@st.cache
+# @st.cache
 def get_cached_data_covid():
     cache_covid_data = insurance.data_covid_daily(path)
     return cache_covid_data
 cache_covid = get_cached_data_covid()
-@st.cache
+# @st.cache
 def get_cached_data_daily():
     cache_data_daily = insurance.data_daily(path)
     return cache_data_daily
 cache_daily = get_cached_data_daily()
-@st.cache
+# @st.cache
 def get_cached_data_indiv_daily():
     cache_data_indiv_daily = insurance.data_indiv_daily(path)
     return cache_data_indiv_daily
 cache_indiv_daily = get_cached_data_indiv_daily()
-@st.cache
+# @st.cache
 def get_cached_data_colec_daily():
     cache_data_colec_daily = insurance.data_colec_daily(path)
     return cache_data_colec_daily
 cache_colec_daily = get_cached_data_colec_daily()
-@st.cache
+# @st.cache
 def get_cached_data_indiv_covid_daily():
     cached_data_indiv_covid_daily = insurance.data_indiv_covid_daily(path)
     return cached_data_indiv_covid_daily
 cache_indiv_covid_daily = get_cached_data_indiv_covid_daily()
-@st.cache
+# @st.cache
 def get_cached_data_colec_covid_daily():
     cached_data_colec_covid_daily = insurance.data_colec_covid_daily(path)
     return cached_data_colec_covid_daily
@@ -355,7 +355,7 @@ else:
     </style>
     """,
     unsafe_allow_html=True,)
-    
+
 
     #Getting data
     data_col, data_ind = prediction.get_data()
