@@ -100,15 +100,6 @@ text = "Select which tool you want to use:"
 menu = ["Home", "Business Intelligence", "Claiming forecasting"]
 choise = st.sidebar.selectbox(text, menu)
 
-st.markdown(f"""
-<style>
-.sidebar .sidebar-content{{
-    background-image: linear-gradient(#2e7bcf,#2e7bcf);
-    color: white;}}
-</style>
-""",
-unsafe_allow_html=True,)
-
 
 if choise == "Home":
     st.markdown("<h1 style='text-align: center; font-size: 300%;'>Welcome!</h1>", unsafe_allow_html=True)
@@ -131,7 +122,7 @@ elif choise == "Business Intelligence":
     <style>
     .reportview-container .main .block-container{{max-width: 1000px;}}
     </style>
-    """, 
+    """,
     unsafe_allow_html=True,)
 
     #---Title---#
@@ -139,7 +130,7 @@ elif choise == "Business Intelligence":
 
     #---Cards---#
     col1, col2, col3, col4 = st.beta_columns((10, 10, 10, 10))
-   
+
     col1.markdown(f'''
     <div class="card text-white bg-info mb-3" style="width: 18rem">
         <div class="card-body">
@@ -183,7 +174,7 @@ elif choise == "Business Intelligence":
 #    pie_plot_claims.update_traces(hoverinfo='label+percent', textinfo='percent', textfont_size=18, marker=dict(colors=claims.index, line=dict(color='#000000', width=2)))
     # fig = go.Figure(data=[go.Pie(labels=labels, values=values, pull=[0, 0, 0.2, 0])])
     # fig.show()
-    
+
     pie_plot_amounts = px.pie(amounts, values='amount', names=amounts.index, color=amounts.index, title='Total amounts vs covid amounts', color_discrete_map={'Covid':'darkblue', 'Otros':'royalblue',})
     pie_plot_amounts.update_layout(width=400, height=400, title_x=0.5, title_yanchor='top',)
     pie_plot_amounts.update_layout({'paper_bgcolor': 'rgba(0,0,0,0)', 'plot_bgcolor': 'rgba(0,0,0,0)',})
@@ -241,6 +232,76 @@ elif choise == "Business Intelligence":
         bar_plot_state.update_layout(width=1000, height=500, showlegend=False)
         st.plotly_chart(bar_plot_state)
 
+    #---Map for Claims by state---#
+
+    data_geo = cache_data.groupby('state', as_index=False).agg({'insurance_type': 'count'})
+    data_geo.columns = ['ESTADO', 'total_claims_state']
+    data_geo['ESTADO'] = data_geo['ESTADO'].str.upper()
+    data_geo['ID'] = [2,3,4,5,6,7,8,9,0,10,11,12,13,14,15,16,17,
+                   18,19,20,21,22,23]
+    data_geo['ID'] = data_geo['ID'].astype(str)
+
+    data_geo['lat'] = [8.567404676772563,7.878238233915126,10.258720213275376,
+                  8.61894586475427,8.126562318826902,10.159406133026875,
+                  9.623429349400682,9.20174105540071,10.484435654212977,
+                  11.069474022921652,9.96575806132416,10.125741665641938,
+                  8.571299723405597,10.354125788585792,9.776306241818299,
+                  10.939135402894177,9.059073585671939,10.650849962356101,
+                  7.965417850740996,9.36784149927373,10.58188981291398,
+                  10.484801951464496,10.261567855011007]
+
+    data_geo['long'] = [-64.9594684895549,-67.46656917292137,-67.58765538009972,
+                   -70.2355519527175,-63.58546158009323,-68.02866395827277,
+                   -68.91984348825437,-61.93342649281256,-66.90920609084017,
+                   -69.7280547454928,-67.47547242839347,-69.34472426084402,
+                   -71.18067836271413,-66.92039424818014,-63.22717426928289,
+                   -64.01581657735747,-69.2422779061641,-62.728453958575756,
+                   -72.14453585456303,-70.42853311681279,-66.67576664578135,
+                   -68.78629970556295,-72.48261768993409]
+
+
+
+    # fig = px.scatter_geo(data_geo, lat="lat", lon="long",
+    #                     size="total_claims_state", title="Total claims by state, Venezuela",
+    #                     scope="south america"
+    #                     )
+
+    # fig.update_geos(
+    # center=dict(lon=-67, lat=9),fitbounds="locations")
+    # fig.update_layout(height=300, margin={"r":0,"t":0,"l":0,"b":0})
+
+    # # lataxis_range=[-50,20], lonaxis_range=[0, 200])
+    # st.plotly_chart(fig)
+
+
+    fig = px.scatter_mapbox(data_geo, lat="lat", lon="long", color="total_claims_state", size="total_claims_state",
+                      color_continuous_scale=px.colors.cyclical.IceFire, size_max=60,
+                      mapbox_style="carto-positron")
+    fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
+    fig.update_layout(width=1000, height=525)
+    st.plotly_chart(fig)
+
+    # import json
+
+    # json_venezuela = 'Estados_Venezuela.json'
+
+    # fig=px.choropleth(data_geo,
+    #              geojson=json_venezuela,
+    #              featureidkey='properties.ST_NM',
+    #              locations='ID',        #column in dataframe
+    #               color='total_claims_state',  #dataframe
+    #               color_continuous_scale='Inferno',
+    #                title='Rape cases across the states' ,
+    #                height=700
+    #               )
+
+    # fig = fig.update_geos(fitbounds="locations", visible=False)
+    # st.plotly_chart(fig)
+
+
+
+
+
     with st.beta_expander('Claims amounts by disease'):
         disease_amount_df = cache_data.groupby('disease', as_index= True).agg({'amount':'sum'})\
         .sort_values(by='amount', ascending = False)
@@ -264,7 +325,7 @@ elif choise == "Business Intelligence":
         daily_indiv_plot.update_layout({'paper_bgcolor': 'rgba(0,0,0,0)', 'plot_bgcolor': 'rgba(0,0,0,0)',})
         daily_indiv_plot.update_layout(width=1000, height=500)
         st.plotly_chart(daily_indiv_plot)
-      
+
         if st.checkbox('COVID claimings'):
             st.write('In this section we are viewing the claims corresponding to covid')
             covid_indiv_plot = px.line(cache_indiv_covid_daily, x='date_issue', y='covid_claims')
@@ -289,7 +350,7 @@ else:
 
     #---Title---#
     st.markdown("<h1 style='text-align: center; font-size: 300%; margin: 0px 0px 100px 0px;'>Claiming forecasting</h1>", unsafe_allow_html=True)
-    
+
     #Getting data
     data_col, data_ind = prediction.get_data()
 
@@ -314,7 +375,7 @@ else:
     # else:
 
     # Getting prediction horizon choice
-    
+
     def get_select_box_data():
         return pd.DataFrame({
             'first column': ['2 Weeks', '1 Month', '2 Months', '3 Months', '6 Months', '1 year']
@@ -324,7 +385,7 @@ else:
 
     option = st.selectbox('', df['first column'])
 
-    
+
     def get_end_date(option):
         if option == '2 Weeks':
             end_date = start_date + timedelta(days=12)
