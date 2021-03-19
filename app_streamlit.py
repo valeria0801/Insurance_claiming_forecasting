@@ -37,7 +37,7 @@ def set_png_as_page_bg(png_file):
     st.markdown(page_bg_img, unsafe_allow_html=True)
     return
 
-set_png_as_page_bg('wallpaper6.png')
+set_png_as_page_bg('imageVale.png')
 
 
 ###-----Wallpaper Image URL-----###
@@ -112,7 +112,7 @@ amounts.index = ['Otros','Covid']
 ###-----Side Bar-----###
 #---Select Tool---#
 text = "Select which tool you want to use:"
-menu = ["Home", "Business Intelligence", "Claiming forecasting"]
+menu = ["Home", "Business Intelligence", "Claims forecasting"]
 choise = st.sidebar.selectbox(text, menu)
 # st.write('<style>body { margin: 0; font-family: Arial, Helvetica, sans-serif;} .header{padding: 10px 16px; background: #555; color: #f1f1f1; position:fixed;top:0;} .sticky { position: fixed; top: 0; width: 100%;} </style><div class="header" id="myHeader">hola</div>', unsafe_allow_html=True)
 
@@ -259,9 +259,15 @@ elif choise == "Business Intelligence":
     # fig.update_traces(textposition='outside')
     # fig.update_layout(title_text='Title')
     # st.plotly_chart(fig)
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> master
 
     #---Total amount claims plot---#
-    fig = px.line(cache_daily, x='date_issue', y='total_amount_claims', title='Company overview',labels={
+    fig = px.line(cache_daily, x='date_issue', y='total_amount_claims', title='Total claims amount USD',labels={
                      "date_issue": "Date",
                      "total_amount_claims": "Total amount claims [USD]"
                  })
@@ -392,8 +398,8 @@ elif choise == "Business Intelligence":
     with st.beta_expander('Claim amounts by disease'):
         disease_amount_df = cache_data.groupby('disease', as_index= True).agg({'amount':'sum'})\
         .sort_values(by='amount', ascending = False)
-        disease_amount_df.columns = ['total_amount_claims']
-        disease_amount_df_rank = disease_amount_df['total_amount_claims'][:10]
+        disease_amount_df.columns = ['Total amount claims']
+        disease_amount_df_rank = disease_amount_df['Total amount claims'][:10]
         st.table(disease_amount_df_rank)
         bar_plot_disease = px.bar(disease_amount_df_rank,labels={
                      "value": "Total amount claims"})
@@ -448,7 +454,10 @@ elif choise == "Business Intelligence":
             daily_indiv_plot['data'][0]['line']['color']='royalblue'
             st.plotly_chart(daily_indiv_plot)
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
         elif ((select == 'Individual portfolio') and (options == 'Total claims and Covid claims')):
             daily_indiv_plot = make_subplots(specs=[[{"secondary_y": True}]])
 
@@ -466,11 +475,18 @@ elif choise == "Business Intelligence":
             st.plotly_chart(daily_indiv_plot)
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
 
 # #de aca
 
 #             # Create figure with secondary y-axis
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
 
 #             # Add traces
 #             fig.add_trace(
@@ -510,7 +526,10 @@ elif choise == "Business Intelligence":
         # st.plotly_chart(daily_colec_plot)
 
         # option = st.checkbox('COVID claimings')
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
         # if ((select == 'Collective portfolio') and (option)):
         #     st.write('In this section we are viewing the claims corresponding to Covid')
         #     daily_colec_plot.add_trace(go.Scatter(x=cache_colec_covid_daily['date_issue'], y=cache_colec_covid_daily['covid_claims'], name="Covid claims"), secondary_y=False,)
@@ -560,6 +579,7 @@ else:
 
 
     # Titles
+<<<<<<< HEAD
     st.markdown("<h1 style='text-align: center; font-size: 300%; margin: 0px 0px 100px 0px; text-shadow: 3px 5px 5px grey;'>Claiming forecasting</h1>", unsafe_allow_html=True)
     st.markdown("""## **You are now in the Prediction API section 📈**""")
 
@@ -576,6 +596,13 @@ else:
 
     st.markdown("Please, define the time period you want to predict.")
 
+=======
+    st.markdown("<h1 style='text-align: center; font-size: 300%; margin: 0px 0px 100px 0px; text-shadow: 3px 5px 5px grey;'>Claims forecasting</h1>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: left; font-size: 125%;'>Please, define the time period you want to predict</p>", unsafe_allow_html=True)
+
+    st.set_option('deprecation.showPyplotGlobalUse', False)
+
+>>>>>>> master
     #EXCEL
 
     # if (data_col.index[-1] + timedelta(days=1)).date() < (data_ind.index[-1] + timedelta(days=1)).date():
@@ -618,14 +645,18 @@ else:
         return end_date
 
     end_date = get_end_date(option)
-    st.write(f'The prediction will start on {start_date} and will end on {end_date}.')
+    st.write(f'The prediction will start on {start_date} and will end on {end_date}')
 
+    st.write(' ')
 
 
     # Plotting prediction for both carteras
-    st.markdown(f"""### **Total Portfolio amount forecast for {option}**""")
+    st.markdown(f"<p style='text-align: center; font-size: 125%; margin=10px, 0px, 0px, 0px;'><b>Total Portfolio amount forecast for {option}</b></p>", unsafe_allow_html=True)
+    #st.markdown(f"""### **Total Portfolio amount forecast for {option}**""")
 
-    st.plotly_chart(prediction.final_plot_total(data_col, data_ind, end_date))
+
+
+    st.plotly_chart(prediction.final_plot_total(data_col, data_ind, end_date).update_layout({'paper_bgcolor': 'rgba(0,0,0,0)', 'plot_bgcolor': 'rgba(0,0,0,0)',}))
 
     #Adding predicted amounts
     predicted_sum_m_col, lower_sum_m_col, upper_sum_m_col, predicted_sum_m_ind, lower_sum_m_ind, upper_sum_m_ind, predicted_sum_m_total, lower_sum_m_total, upper_sum_m_total = prediction.pred_summary(data_col, data_ind, end_date)
@@ -635,9 +666,12 @@ else:
     st.write(f'The 95% Confidence Interval goes from {lower_sum_m_total} Million USD to {upper_sum_m_total} Million USD.')
 
     # Plotting prediction for cartera colectiva
-    st.markdown(f"""### **Collective Portfolio amount forecast for {option}**""")
+    st.write(' ')
+    st.write(' ')
+    st.markdown(f"<p style='text-align: center; font-size: 125%; margin=10px, 0px, 0px, 0px;'><b>Collective Portfolio amount forecast for {option}</b></p>", unsafe_allow_html=True)
+    #st.markdown(f"""### **Collective Portfolio amount forecast for {option}**""")
 
-    st.plotly_chart(prediction.final_plot_col(data_col, end_date))
+    st.plotly_chart(prediction.final_plot_col(data_col, end_date).update_layout({'paper_bgcolor': 'rgba(0,0,0,0)', 'plot_bgcolor': 'rgba(0,0,0,0)',}))
 
     #Adding predicted amounts
 
@@ -646,9 +680,12 @@ else:
     st.write(f'The 95% Confidence Interval goes from {lower_sum_m_col} Million USD to {upper_sum_m_col} Million USD.')
 
     # Plotting prediction for cartera individual
-    st.markdown(f"""### **Individual Portfolio amount forecast for {option}**""")
+    st.write(' ')
+    st.write(' ')
+    st.markdown(f"<p style='text-align: center; font-size: 125%; margin=10px, 0px, 0px, 0px;'><b>Individual Portfolio amount forecast for {option}</b></p>", unsafe_allow_html=True)
+    #st.markdown(f"""### **Individual Portfolio amount forecast for {option}**""")
 
-    st.plotly_chart(prediction.final_plot_ind(data_ind, end_date))
+    st.plotly_chart(prediction.final_plot_ind(data_ind, end_date).update_layout({'paper_bgcolor': 'rgba(0,0,0,0)', 'plot_bgcolor': 'rgba(0,0,0,0)',}))
 
     #Adding predicted amounts
 
