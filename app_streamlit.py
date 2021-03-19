@@ -256,12 +256,12 @@ elif choise == "Business Intelligence":
     # fig.update_traces(textposition='outside')
     # fig.update_layout(title_text='Title')
     # st.plotly_chart(fig)
-    
+
 
 
 
     #---Total amount claims plot---#
-    fig = px.line(cache_daily, x='date_issue', y='total_amount_claims', title='Company overview',labels={
+    fig = px.line(cache_daily, x='date_issue', y='total_amount_claims', title='Total claims amount USD',labels={
                      "date_issue": "Date",
                      "total_amount_claims": "Total amount claims [USD]"
                  })
@@ -446,7 +446,7 @@ elif choise == "Business Intelligence":
             daily_indiv_plot.update_layout(width=1000, height=500, xaxis_title="Date", yaxis_title="Total claims")
             daily_indiv_plot['data'][0]['line']['color']='royalblue'
             st.plotly_chart(daily_indiv_plot)
-      
+
         elif ((select == 'Individual portfolio') and (options == 'Total claims and Covid claims')):
             daily_indiv_plot = make_subplots(specs=[[{"secondary_y": True}]])
 
@@ -461,12 +461,12 @@ elif choise == "Business Intelligence":
             daily_indiv_plot['data'][0]['line']['color']='royalblue'
             st.plotly_chart(daily_indiv_plot)
 
- 
+
 
 # #de aca
 
 #             # Create figure with secondary y-axis
-            
+
 
 #             # Add traces
 #             fig.add_trace(
@@ -505,7 +505,7 @@ elif choise == "Business Intelligence":
         # daily_colec_plot['data'][0]['line']['color']='royalblue'
         # st.plotly_chart(daily_colec_plot)
 
-        # option = st.checkbox('COVID claimings')  
+        # option = st.checkbox('COVID claimings')
         # if ((select == 'Collective portfolio') and (option)):
         #     st.write('In this section we are viewing the claims corresponding to Covid')
         #     daily_colec_plot.add_trace(go.Scatter(x=cache_colec_covid_daily['date_issue'], y=cache_colec_covid_daily['covid_claims'], name="Covid claims"), secondary_y=False,)
@@ -521,7 +521,7 @@ elif choise == "Business Intelligence":
             daily_colec_plot.update_layout(width=1000, height=500, xaxis_title="Date", yaxis_title="Total claims")
             daily_colec_plot['data'][0]['line']['color']='royalblue'
             st.plotly_chart(daily_colec_plot)
-        
+
         elif ((select == 'Collective portfolio') and (options == 'Total claims and Covid claims')):
             daily_colec_plot = make_subplots(specs=[[{"secondary_y": True}]])
 
@@ -568,7 +568,7 @@ else:
     # Titles
     st.markdown("<h1 style='text-align: center; font-size: 300%; margin: 0px 0px 100px 0px; text-shadow: 3px 5px 5px grey;'>Claims forecasting</h1>", unsafe_allow_html=True)
     st.markdown("<p style='text-align: left; font-size: 125%;'>Please, define the time period you want to predict</p>", unsafe_allow_html=True)
-        
+
     st.set_option('deprecation.showPyplotGlobalUse', False)
 
     #EXCEL
@@ -614,7 +614,7 @@ else:
 
     end_date = get_end_date(option)
     st.write(f'The prediction will start on {start_date} and will end on {end_date}')
-    
+
     st.write(' ')
 
 
@@ -623,7 +623,7 @@ else:
     #st.markdown(f"""### **Total Portfolio amount forecast for {option}**""")
 
 
-    
+
     st.plotly_chart(prediction.final_plot_total(data_col, data_ind, end_date).update_layout({'paper_bgcolor': 'rgba(0,0,0,0)', 'plot_bgcolor': 'rgba(0,0,0,0)',}))
 
     #Adding predicted amounts
