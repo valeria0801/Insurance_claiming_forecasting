@@ -2,15 +2,20 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from statsmodels.tsa.statespace.sarimax import SARIMAX
-from datetime import timedelta
+from datetime import timedelta, datetime
 import plotly.express as px
 from plotly.graph_objs import *
 import plotly.graph_objects as go
 
 def get_data():
+    # EXCEL
+    # data_ind= pd.read_excel('data_heroku/weekly_data_clean_with_covid_ind.xlsx', engine='openpyxl').drop(columns= 'Unnamed: 0').set_index('date_issue')
+    # data_col= pd.read_excel('data_heroku/weekly_data_clean_with_covid_col.xlsx', engine='openpyxl').drop(columns= 'Unnamed: 0').set_index('date_issue')
 
-    data_ind= pd.read_excel('data_heroku/weekly_data_clean_with_covid_ind.xlsx', engine='openpyxl').drop(columns= 'Unnamed: 0').set_index('date_issue')
-    data_col= pd.read_excel('data_heroku/weekly_data_clean_with_covid_col.xlsx', engine='openpyxl').drop(columns= 'Unnamed: 0').set_index('date_issue')
+    #CSV
+    data_ind= pd.read_csv('Insurance_claiming_forecasting/data/data_indiv_covid_weekly.csv').set_index('date_issue')
+    data_col= pd.read_csv('Insurance_claiming_forecasting/data/data_colec_covid_weekly.csv').set_index('date_issue')
+
     return data_col, data_ind
 
 def predict_col(data_col, end_date):
@@ -18,7 +23,13 @@ def predict_col(data_col, end_date):
     best_sarima_full_data = SARIMAX(endog= data_col['amount'], order=(0, 1, 1),seasonal_order=(1, 1, 0, 52))
     best_sarima_full_data = best_sarima_full_data.fit()
     # Predict
-    future_prediction_full_data = best_sarima_full_data.get_prediction(start = data_col.index[-1] + timedelta(days=1), end = end_date, dynamic = True, full_results = True)
+
+    #EXCEL
+    #future_prediction_full_data = best_sarima_full_data.get_prediction(start = data_col.index[-1] + timedelta(days=1), end = end_date, dynamic = True, full_results = True)
+
+    #CSV
+    future_prediction_full_data = best_sarima_full_data.get_prediction(start = ((datetime.strptime(data_col.index[-1], '%Y-%m-%d').date()) + timedelta(days=1)), end = end_date, dynamic = True, full_results = True)
+
     # Create results and confidence intervals
     future_predicted_amount_full_data = future_prediction_full_data.prediction_results.forecasts[0]
     future_predicted_amount_df_full_data_col = pd.DataFrame(future_predicted_amount_full_data, index=future_prediction_full_data.row_labels)
@@ -31,7 +42,12 @@ def predict_ind(data_ind, end_date):
     best_sarima_full_data = SARIMAX(endog= data_ind['amount'], order=(0, 1, 1),seasonal_order=(1, 1, 0, 52))
     best_sarima_full_data = best_sarima_full_data.fit()
     # Predict
-    future_prediction_full_data = best_sarima_full_data.get_prediction(start = data_ind.index[-1] + timedelta(days=1), end = end_date, dynamic = True, full_results = True)
+
+    #EXCEL
+    #future_prediction_full_data = best_sarima_full_data.get_prediction(start = data_ind.index[-1] + timedelta(days=1), end = end_date, dynamic = True, full_results = True)
+
+    #CSV
+    future_prediction_full_data = best_sarima_full_data.get_prediction(start = ((datetime.strptime(data_ind.index[-1], '%Y-%m-%d').date())+ timedelta(days=1)), end = end_date, dynamic = True, full_results = True)
     # Create results and confidence intervals
     future_predicted_amount_full_data = future_prediction_full_data.prediction_results.forecasts[0]
     future_predicted_amount_df_full_data_ind = pd.DataFrame(future_predicted_amount_full_data, index=future_prediction_full_data.row_labels)
