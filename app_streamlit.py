@@ -15,17 +15,18 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from PIL import Image
 
+
 # df = pd.read_csv('data/clean_data.csv')
 # st.write(df)
 ###-----Wallpaper Image Local-----###
 
 # @st.cache(allow_output_mutation=True)
-def get_base64_of_bin_file(bin_file):
+def get_base64_file(bin_file):
     with open(bin_file, 'rb') as f:
         data = f.read()
     return base64.b64encode(data).decode()
-def set_png_as_page_bg(png_file):
-    bin_str = get_base64_of_bin_file(png_file)
+def set_page_bg(png_file):
+    bin_str = get_base64_file(png_file)
     page_bg_img = '''
     <style>
     body {
@@ -37,7 +38,7 @@ def set_png_as_page_bg(png_file):
     st.markdown(page_bg_img, unsafe_allow_html=True)
     return
 
-set_png_as_page_bg('imageVale.png')
+set_page_bg('imageVale.png')
 
 ###-----Wallpaper Image URL-----###
 # background_image = '''
@@ -137,7 +138,7 @@ if choise == "Home":
             st.warning("Incorrect Username")
 
     ###-----Image home-----###
-    image = Image.open('hellosinfondo.png')
+    image = Image.open('imageotra.png')
     size = 300, 300
     image.thumbnail(size)
     st.sidebar.image(image, use_column_width=False)
