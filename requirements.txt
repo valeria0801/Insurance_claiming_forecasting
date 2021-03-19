@@ -27,4 +27,4 @@ streamlit
 plotly
 pybase64
 statsmodels
-PIL
+Pillow
