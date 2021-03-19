@@ -10,11 +10,7 @@ import plotly.graph_objects as go
 from plotly.graph_objs import *
 import matplotlib.pyplot as plt
 from statsmodels.tsa.statespace.sarimax import SARIMAX
-<<<<<<< HEAD
-from datetime import timedelta
-=======
 from datetime import timedelta, datetime
->>>>>>> master
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from PIL import Image
@@ -41,11 +37,8 @@ def set_png_as_page_bg(png_file):
     st.markdown(page_bg_img, unsafe_allow_html=True)
     return
 
-<<<<<<< HEAD
-set_png_as_page_bg('paper1.jpg')
-=======
 set_png_as_page_bg('wallpaper6.png')
->>>>>>> master
+
 
 ###-----Wallpaper Image URL-----###
 # background_image = '''
@@ -222,11 +215,8 @@ elif choise == "Business Intelligence":
     #---Pie charts claims & amounts---#
 #     col1, col2 = st.beta_columns((20, 20))
 
-<<<<<<< HEAD
-    pie_plot_claims = px.pie(claims, values='amount', names=claims.index, color=claims.index, title='Total claims vs covid claims', color_discrete_map={'Covid':'darkblue', 'Otros':'royalblue',})
-=======
+
     pie_plot_claims = px.pie(claims, values='amount', names=claims.index, color=claims.index, title='Total claims vs Covid claims', color_discrete_map={'Covid':'darkblue', 'Otros':'royalblue',})
->>>>>>> master
     pie_plot_claims.update_layout(width=400, height=400, title_x=0.5, title_yanchor='top', autosize=False)
     pie_plot_claims.update_layout({'paper_bgcolor': 'rgba(0,0,0,0)', 'plot_bgcolor': 'rgba(0,0,0,0)',})
     pie_plot_claims.update_yaxes(automargin=True)
@@ -236,11 +226,8 @@ elif choise == "Business Intelligence":
     # fig = go.Figure(data=[go.Pie(labels=labels, values=values, pull=[0, 0, 0.2, 0])])
     # fig.show()
 
-<<<<<<< HEAD
-    pie_plot_amounts = px.pie(amounts, values='amount', names=amounts.index, color=amounts.index, title='Total amounts vs covid amounts', color_discrete_map={'Covid':'darkblue', 'Otros':'royalblue',})
-=======
+
     pie_plot_amounts = px.pie(amounts, values='amount', names=amounts.index, color=amounts.index, title='Total amounts vs Covid amounts', color_discrete_map={'Covid':'darkblue', 'Otros':'royalblue',})
->>>>>>> master
     pie_plot_amounts.update_layout(width=400, height=400, title_x=0.5, title_yanchor='top', autosize=False)
     pie_plot_amounts.update_layout({'paper_bgcolor': 'rgba(0,0,0,0)', 'plot_bgcolor': 'rgba(0,0,0,0)',})
     pie_plot_amounts.update_yaxes(automargin=True)
@@ -272,13 +259,6 @@ elif choise == "Business Intelligence":
     # fig.update_traces(textposition='outside')
     # fig.update_layout(title_text='Title')
     # st.plotly_chart(fig)
-<<<<<<< HEAD
-
-=======
-    
->>>>>>> master
-
-
 
     #---Total amount claims plot---#
     fig = px.line(cache_daily, x='date_issue', y='total_amount_claims', title='Company overview',labels={
@@ -314,11 +294,8 @@ elif choise == "Business Intelligence":
 
     df_plot_age = cache_data.groupby('age_range', as_index = False).agg({'insurance_type':'count'})
     df_plot_age.columns = ['age_range','total_claims']
-<<<<<<< HEAD
-    pie_plot_age = px.pie(df_plot_age, values=df_plot_age['total_claims'], names=df_plot_age['age_range'], title='Claims by age group', color='age_range', color_discrete_map={'40-49':'rgb(3, 157, 252)', '50-59':'rgb(14, 132, 204)', '60-69': 'rgb(8, 100, 156)', '30-39': 'rgb(10, 72, 110)', 'Mayor a 70': 'darkblue', '0-9': 'royalblue', '20-29': 'rgb(119, 164, 242)', 'No informado': 'rgb(70, 132, 240)',})
-=======
+
     pie_plot_age = px.pie(df_plot_age, values=df_plot_age['total_claims'], names=df_plot_age['age_range'], title='Claims by age group', color='age_range', color_discrete_map={'40-49':'#1d44b8', '50-59':'#214cce', '60-69': '#2b58de', '30-39': '#4169e1', 'Mayor a 70': '#577ae4', '0-9': '#6d8ce8', '20-29': '#839deb', 'No informado': 'darkblue',})
->>>>>>> master
     pie_plot_age.update_layout(width=500, height=400, title_x=0.5, title_yanchor='top',)
     pie_plot_age.update_layout({'paper_bgcolor': 'rgba(0,0,0,0)', 'plot_bgcolor': 'rgba(0,0,0,0)',})
     pie_plot_age.update_layout(legend_font_size=10)
@@ -470,47 +447,30 @@ elif choise == "Business Intelligence":
             daily_indiv_plot.update_layout(width=1000, height=500, xaxis_title="Date", yaxis_title="Total claims")
             daily_indiv_plot['data'][0]['line']['color']='royalblue'
             st.plotly_chart(daily_indiv_plot)
-<<<<<<< HEAD
 
-=======
-      
->>>>>>> master
+
         elif ((select == 'Individual portfolio') and (options == 'Total claims and Covid claims')):
             daily_indiv_plot = make_subplots(specs=[[{"secondary_y": True}]])
 
             daily_indiv_plot.add_trace(go.Scatter(x=cache_indiv_daily['date_issue'], y=cache_indiv_daily['total_claims'], name="Total claims"), secondary_y=False,)
             daily_indiv_plot.update_layout({'paper_bgcolor': 'rgba(0,0,0,0)', 'plot_bgcolor': 'rgba(0,0,0,0)',})
-<<<<<<< HEAD
-            daily_indiv_plot.update_layout(width=1000, height=500, xaxis_title="Date", yaxis_title="Total claims",)
-=======
+
             daily_indiv_plot.update_layout(width=1050, height=500, xaxis_title="Date", yaxis_title="Total claims",)
->>>>>>> master
             daily_indiv_plot['data'][0]['line']['color']='royalblue'
 
             daily_indiv_plot.add_trace(go.Scatter(x=cache_indiv_covid_daily['date_issue'], y=cache_indiv_covid_daily['covid_claims'], name="Covid claims"), secondary_y=False,)
             daily_indiv_plot.update_layout({'paper_bgcolor': 'rgba(0,0,0,0)', 'plot_bgcolor': 'rgba(0,0,0,0)',})
-<<<<<<< HEAD
-            daily_indiv_plot.update_layout(width=1000, height=500, xaxis_title="Date", yaxis_title="Total claims",)
-            daily_indiv_plot['data'][0]['line']['color']='royalblue'
-            st.plotly_chart(daily_indiv_plot)
 
-
-=======
             daily_indiv_plot.update_layout(width=1050, height=500, xaxis_title="Date", yaxis_title="Total claims",)
             daily_indiv_plot['data'][0]['line']['color']='royalblue'
             st.plotly_chart(daily_indiv_plot)
 
- 
->>>>>>> master
+
+
 
 # #de aca
 
 #             # Create figure with secondary y-axis
-<<<<<<< HEAD
-
-=======
-            
->>>>>>> master
 
 #             # Add traces
 #             fig.add_trace(
@@ -549,42 +509,15 @@ elif choise == "Business Intelligence":
         # daily_colec_plot['data'][0]['line']['color']='royalblue'
         # st.plotly_chart(daily_colec_plot)
 
-<<<<<<< HEAD
         # option = st.checkbox('COVID claimings')
-=======
-        # option = st.checkbox('COVID claimings')  
->>>>>>> master
+
         # if ((select == 'Collective portfolio') and (option)):
         #     st.write('In this section we are viewing the claims corresponding to Covid')
         #     daily_colec_plot.add_trace(go.Scatter(x=cache_colec_covid_daily['date_issue'], y=cache_colec_covid_daily['covid_claims'], name="Covid claims"), secondary_y=False,)
         #     daily_colec_plot['data'][0]['line']['color']='royalblue'
         #     st.plotly_chart(daily_colec_plot)
         options = st.radio('Select an option', ('Total claims', 'Total claims and Covid claims'))
-<<<<<<< HEAD
-    if ((select == 'Colective portfolio') and (options == 'Total claims')):
 
-        # Add traces
-        daily_colec_plot = make_subplots(specs=[[{"secondary_y": True}]])
-        daily_colec_plot.add_trace(go.Scatter(x=cache_colec_daily['date_issue'], y=cache_colec_daily['total_claims'], name="Total claims"), secondary_y=False,)
-        daily_colec_plot.update_layout({'paper_bgcolor': 'rgba(0,0,0,0)', 'plot_bgcolor': 'rgba(0,0,0,0)',})
-        daily_colec_plot.update_layout(width=1000, height=500, xaxis_title="Date", yaxis_title="Total claims")
-        daily_colec_plot['data'][0]['line']['color']='royalblue'
-        st.plotly_chart(daily_colec_plot)
-
-    elif ((select == 'Colective portfolio') and (options == 'Total claims and Covid claims')):
-        daily_colec_plot = make_subplots(specs=[[{"secondary_y": True}]])
-
-        daily_colec_plot.add_trace(go.Scatter(x=cache_colec_daily['date_issue'], y=cache_colec_daily['total_claims'], name="Total claims"), secondary_y=False,)
-        daily_colec_plot.update_layout({'paper_bgcolor': 'rgba(0,0,0,0)', 'plot_bgcolor': 'rgba(0,0,0,0)',})
-        daily_colec_plot.update_layout(width=1000, height=500, xaxis_title="Date", yaxis_title="Total claims",)
-        daily_colec_plot['data'][0]['line']['color']='royalblue'
-
-        daily_colec_plot.add_trace(go.Scatter(x=cache_colec_covid_daily['date_issue'], y=cache_colec_covid_daily['covid_claims'], name="Covid claims"), secondary_y=False,)
-        daily_colec_plot.update_layout({'paper_bgcolor': 'rgba(0,0,0,0)', 'plot_bgcolor': 'rgba(0,0,0,0)',})
-        daily_colec_plot.update_layout(width=1000, height=500, xaxis_title="Date", yaxis_title="Total claims",)
-        daily_colec_plot['data'][0]['line']['color']='royalblue'
-        st.plotly_chart(daily_colec_plot)
-=======
         if ((select == 'Collective portfolio') and (options == 'Total claims')):
 
             # Add traces
@@ -594,7 +527,7 @@ elif choise == "Business Intelligence":
             daily_colec_plot.update_layout(width=1000, height=500, xaxis_title="Date", yaxis_title="Total claims")
             daily_colec_plot['data'][0]['line']['color']='royalblue'
             st.plotly_chart(daily_colec_plot)
-        
+
         elif ((select == 'Collective portfolio') and (options == 'Total claims and Covid claims')):
             daily_colec_plot = make_subplots(specs=[[{"secondary_y": True}]])
 
@@ -608,19 +541,6 @@ elif choise == "Business Intelligence":
             daily_colec_plot.update_layout(width=1050, height=500, xaxis_title="Date", yaxis_title="Total claims",)
             daily_colec_plot['data'][0]['line']['color']='royalblue'
             st.plotly_chart(daily_colec_plot)
->>>>>>> master
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 else:
@@ -642,8 +562,7 @@ else:
     # Titles
     st.markdown("<h1 style='text-align: center; font-size: 300%; margin: 0px 0px 100px 0px; text-shadow: 3px 5px 5px grey;'>Claiming forecasting</h1>", unsafe_allow_html=True)
     st.markdown("""## **You are now in the Prediction API section 📈**""")
-<<<<<<< HEAD
-=======
+
     st.markdown("Please, define the time period you want to predict.")
 
     st.set_option('deprecation.showPyplotGlobalUse', False)
@@ -654,7 +573,7 @@ else:
 
     # Titles
     st.markdown("""## **Welcome to the Prediction API**""")
->>>>>>> master
+
     st.markdown("Please, define the time period you want to predict.")
 
     #EXCEL
